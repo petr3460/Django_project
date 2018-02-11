@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}
+{{product.name}}
+{% endblock%}
+{% block css %}
+    {% load staticfiles %}
+    <link href={% static 'itembootstrap.min.css' %} rel="stylesheet">
+    <link href={% static 'shop-item.css' %} rel="stylesheet">
+{% endblock %}
+
+            {% block content %}
+                <div class="thumbnail">
+                    <div class="row">
+                    {% for image in images %}
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <div class="thumbnail">
+                                <a href="/{{ image }}/">
+                                    <img src="/{{ image }}" alt=""></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                    <div class="caption-full">
+                        <h4 class="pull-right">{{product.price}} руб.</h4>
+                        <h4><a href="#">{{product.name}}</a>
+                        </h4>
+                        <p>{{ product.description }}</p>
+                        <p>comments:</p>
+                        {% for comment in comments %}
+                            <p>{{ comment.comments_text }}</p>
+                        {% endfor %}
+                        <form action="/item/addcomment/{{ product.alias }}/" method="post">
+                            {% csrf_token %}
+                            {{ form }}
+                            <input type="submit" class="button" value="Add comment">
+                        </form>
+
+                    </div>
+                </div>
+            {% endblock %}

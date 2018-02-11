@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+    Контакты
+{% endblock%}
+{% load staticfiles %}
+{% block css %}
+    <link href={% static 'bootstrap.min.css' %} rel="stylesheet">
+    <link href={% static 'shop-homepage.css' %} rel="stylesheet">
+{% endblock %}
+
+            {% block content %}
+                <div class="row">
+                    <p> Здесь будет контактная информация. </p>
+                </div>
+            {% endblock %}
