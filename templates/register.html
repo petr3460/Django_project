@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}
+register
+{% endblock%}
+{% load staticfiles %}
+{% block css %}
+    <link href={% static 'bootstrap.min.css' %} rel="stylesheet">
+    <link href={% static 'shop-homepage.css' %} rel="stylesheet">
+{% endblock %}
+
+{% block login %}
+    <div>
+        <form action="/auth/register/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input class="button" type="submit" value="register">
+        </form>
+    </div>
+
+{% endblock %}

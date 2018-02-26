@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+Log in
+{% endblock%}
+{% load staticfiles %}
+{% block css %}
+    <link href={% static 'bootstrap.min.css' %} rel="stylesheet">
+    <link href={% static 'shop-homepage.css' %} rel="stylesheet">
+{% endblock %}
+
+{% block login %}
+    <div>
+        <form action="/auth/login/" method="post">
+            {% csrf_token %}
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+            {% if login_error %}
+                <label class="error">{{ login_error }}</label>
+            {% endif %}
+            <input class="button" type="submit" value="enter">
+            <div class="label"><a href="/auth/register">Register</a></div>
+        </form>
+    </div>
+
+{% endblock %}

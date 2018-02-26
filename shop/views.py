@@ -3,7 +3,9 @@ from django.template import loader
 from shop.models import Item, Category, Comments
 from django.http import Http404
 from .forms import CommentForm
-
+from django.contrib import auth
+from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.forms import UserCreationForm
 
 
 
@@ -16,6 +18,7 @@ def home(request):
     context = {
         'products': products,
         'categories': categories,
+        'username': auth.get_user(request).username,
     }
     return render(request, 'index.html', context)
 
@@ -31,7 +34,8 @@ def item(request, alias):
         'categories': categories,
         'images': [product.image.url, ],
         'comments': Comments.objects.filter(comments_item_id=product.id),
-        'form': comment_form
+        'form': comment_form,
+        'username': auth.get_user(request).username,
     }
     context.update(request)
     return render(request, 'item.html', context)
@@ -48,6 +52,7 @@ def get_category(request, alias):
         'products': products,
         'category': category,
         'categories': categories,
+        'username': auth.get_user(request).username,
     }
     return render(request, 'category.html', context)
 
@@ -56,6 +61,7 @@ def shipping(request):
     categories = Category.objects.all()
     context = {
         'categories': categories,
+        'username': auth.get_user(request).username,
             }
     return render(request, 'shipping.html', context)
 
@@ -64,6 +70,7 @@ def about(request):
     categories = Category.objects.all()
     context = {
         'categories' : categories,
+        'username': auth.get_user(request).username,
     }
     return render(request, 'about.html', context)
 
@@ -72,6 +79,7 @@ def contacts(request):
     categories = Category.objects.all()
     context = {
         'categories': categories,
+        'username': auth.get_user(request).username,
     }
     return render(request, 'contacts.html', context)
 
@@ -85,3 +93,38 @@ def addcomment(request, alias):
             form.save()
     return redirect('/item/%s/' % alias)
 
+@csrf_protect
+def login(request):
+    args = {}
+    if request.POST:
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        user = auth.authenticate(username=username, password=password)
+        if user is not None:
+            auth.login(request, user)
+            return redirect('/')
+        else:
+            args['login_error'] = "user is not found"
+            return render(request, 'login.html', args)
+    else:
+        return render(request, 'login.html', args)
+
+@csrf_protect
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
+
+@csrf_protect
+def register(request):
+    args = {}
+    args['form'] = UserCreationForm()
+    if request.POST:
+        newuser_form = UserCreationForm(request.POST)
+        if newuser_form.is_valid():
+            newuser_form.save()
+            newuser = auth.authenticate(username=newuser_form.cleaned_data['username'], password=newuser_form.cleaned_data['password2'])
+            auth.login(request, newuser)
+            return redirect('/')
+        else:
+            args['form'] = newuser_form
+    return render(request, 'register.html', args)
