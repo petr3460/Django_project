@@ -6,6 +6,7 @@ from .forms import CommentForm
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.forms import UserCreationForm
+import smtplib
 
 
 
@@ -92,6 +93,20 @@ def addcomment(request, alias):
             comment.comments_item = Item.objects.get(alias=alias)
             form.save()
     return redirect('/item/%s/' % alias)
+
+def order(request, alias):
+    if request.POST:
+        name = request.POST['firstname']
+        email = request.POST['email']
+        content = 'name= '+ name + '\nemail is: ' + email + '\nproduct: ' + alias
+        mail = smtplib.SMTP('smtp.gmail.com', 587)
+        mail.ehlo()
+        mail.starttls()
+        mail.login('tt1835935@gmail.com', 'Qazwsx122')
+        mail.sendmail('fromdjango', 'petr3460@gmail.com', content)
+        mail.close()
+    return redirect('/item/%s/' % alias)
+
 
 @csrf_protect
 def login(request):

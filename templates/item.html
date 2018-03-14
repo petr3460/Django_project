@@ -25,7 +25,7 @@
                         <h4><a href="#">{{product.name}}</a>
                         </h4>
                         <p>{{ product.description }}</p>
-                        <p>comments:</p>
+                        <p><h4>Comments:</h4></p>
                         {% for comment in comments %}
                             <p>{{ comment.comments_text }}</p>
                         {% endfor %}
@@ -33,6 +33,17 @@
                             {% csrf_token %}
                             {{ form }}
                             <input type="submit" class="button" value="Add comment">
+                        </form>
+                        <h4>Order this product:</h4>
+                        <form action="/item/order/{{ product.alias }}/" method="post">
+                            {% csrf_token %}
+                            First name:<br>
+                            <input type="text" name="firstname" value="Vasya">
+                            <br>
+                            Email:<br>
+                            <input type="email" name="email" value="vasya@mail.ru">
+                            <br><br>
+                            <input type="submit" value="Send order">
                         </form>
 
                     </div>
