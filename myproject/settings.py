@@ -25,7 +25,9 @@ SECRET_KEY = 'wr-@c^u2wlp(3(m+n=!uj*=y$u935)^kfnapzw^h647l!(ic9j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.0.106',
+                 '127.0.0.1',
+                 ]
 
 
 # Application definition
@@ -38,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
+
+
 ]
 
 MIDDLEWARE = [
@@ -64,7 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+               ],
         },
     },
 ]
@@ -74,20 +78,13 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-'''
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-'''
+
 
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django_db',
+        'NAME': 'djangodb',
         'USER': 'petr3460',
         'PASSWORD': 'Asdfg133',
         'HOST': '127.0.0.1',
@@ -137,6 +134,3 @@ STATICFILES_DIRS = (
     ('static', '/home/petr/PycharmProjects/myproject/static')
 )
 
-
-#MEDIA_ROOT = os.path.join(BASE_DIR, 'images/')
-#MEDIA_URL = '/images/'

@@ -2,9 +2,9 @@ from django.contrib import admin
 from shop.models import *
 
 
-
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+
 
 class ItemComment(admin.StackedInline):
     model = Comments
@@ -13,9 +13,9 @@ class ItemComment(admin.StackedInline):
 
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'image')
-    #fields = ['name', 'image', 'category']
     inlines = [ItemComment]
+
 
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Category, CategoryAdmin)
-#admin.site.register(Comments)
+

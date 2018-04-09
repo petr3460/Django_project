@@ -23,17 +23,22 @@
                     <div class="caption-full">
                         <h4 class="pull-right">{{product.price}} руб.</h4>
                         <h4><a href="#">{{product.name}}</a>
+                            <a href="/item/addlike/{{ product.id }}"><img src="{% static "like.jpg" %}" width="35px" height="35px"></a>{{ product.likes }}
                         </h4>
                         <p>{{ product.description }}</p>
                         <p><h4>Comments:</h4></p>
                         {% for comment in comments %}
-                            <p>{{ comment.comments_text }}</p>
+                            <p>{{ comment.comments_user }} :  {{ comment.comments_text }}</p>
                         {% endfor %}
+                        {% if username %}
                         <form action="/item/addcomment/{{ product.alias }}/" method="post">
                             {% csrf_token %}
                             {{ form }}
                             <input type="submit" class="button" value="Add comment">
                         </form>
+                            {% else %}
+                            <p>only registered users can leave comments</p>
+                        {% endif %}
                         <h4>Order this product:</h4>
                         <form action="/item/order/{{ product.alias }}/" method="post">
                             {% csrf_token %}
