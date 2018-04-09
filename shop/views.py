@@ -126,7 +126,7 @@ def order(request, alias):
             mail = smtplib.SMTP('smtp.gmail.com', 587)
             mail.ehlo()
             mail.starttls()
-            mail.login('tt1835935@gmail.com', 'Qazwsx122')
+            mail.login('***********', '************')   #password and login must be here
             mail.sendmail('fromdjango', 'petr3460@gmail.com', content)
             mail.close()
             context['message'] = 'your order has been sent successfully!'
